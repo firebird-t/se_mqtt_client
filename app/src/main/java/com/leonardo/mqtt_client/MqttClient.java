@@ -71,11 +71,13 @@ public class MqttClient {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
 
+                    //Configurações para armazenamento de mensagens offline
                     DisconnectedBufferOptions disconnectedBufferOptions = new DisconnectedBufferOptions();
                     disconnectedBufferOptions.setBufferEnabled(true);
                     disconnectedBufferOptions.setBufferSize(100);
                     disconnectedBufferOptions.setPersistBuffer(false);
                     disconnectedBufferOptions.setDeleteOldestMessages(false);
+
                     mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
                     subscribeToTopic();
                 }
