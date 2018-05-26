@@ -7,20 +7,20 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/bt2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="66dp"
-        android:text="Capturar Localização"
+        android:text="Enviar Localização"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/bt1" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/bt1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ativar"
+        android:layout_height="48dp"
+        android:text="Visualizar Dados"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

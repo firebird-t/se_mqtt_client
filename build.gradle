@@ -19,12 +19,22 @@ buildscript {
             url "https://repo.eclipse.org/content/repositories/paho-snapshots/"
         }
     }
+
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+
 }
 
 allprojects {
     repositories {
         google()
         jcenter()
+    }
+
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
     }
 }
 
