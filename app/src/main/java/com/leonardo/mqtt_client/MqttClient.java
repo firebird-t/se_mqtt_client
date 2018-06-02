@@ -17,17 +17,17 @@ public class MqttClient {
     public MqttAndroidClient mqttAndroidClient;
 
     //Servidor
-    final String serverUri = "";
+    final String serverUri = "m13.cloudmqtt.com";
 
     //Dados do cliente
-    final String clientId = "";
+    final String clientId = "Android Client";
 
     //Dados do sensor
     final String subscriptionTopic = "sensor/+";
 
     //Dados de usuário e senha
-    final String username = "";
-    final String password = "";
+    final String username = "oubvlxlo";
+    final String password = "1qrkhzaMzUoN";
 
     public MqttClient(Context context){
         mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
