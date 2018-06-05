@@ -12,6 +12,7 @@ import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
 
 public class MqttClient {
     public MqttAndroidClient mqttAndroidClient;
@@ -24,7 +25,7 @@ public class MqttClient {
 
     //private static IoTClient instance;
     //private final Context context;
-    //private final Context context;
+    private Context context;
 
     private String organization = "tobtpr" ;
     private String deviceType = "mobile";
@@ -46,6 +47,7 @@ public class MqttClient {
 
     public MqttClient(Context context){
 
+        this.context = context;
         //Informa os dados de identificação do cliente e url de conexão
         mqttAndroidClient = new MqttAndroidClient(context, this.connectionURI, this.clientID);
 
@@ -161,6 +163,37 @@ public class MqttClient {
         return connected;
     }
 
+    public IMqttDeliveryToken publishCommand(String command, String format, String payload, int qos, boolean retained, IMqttActionListener listener) throws MqttException {
+        Log.d(TAG, ".publishCommand() entered");
+        String commandTopic = getCommandTopic(command, format);
+        return publish(commandTopic, payload, qos, retained, listener);
+    }
+
+    private IMqttDeliveryToken publish(String topic, String payload, int qos, boolean retained, IMqttActionListener listener) throws MqttException {
+        Log.d(TAG, ".publish() entered");
+
+        // check if client is connected
+        if (isMqttConnected()) {
+            // create a new MqttMessage from the message string
+            MqttMessage mqttMsg = new MqttMessage(payload.getBytes());
+            // set retained flag
+            mqttMsg.setRetained(retained);
+            // set quality of service
+            mqttMsg.setQos(qos);
+            try {
+                // create ActionListener to handle message published results
+                Log.d(TAG, ".publish() - Publishing " + payload + " to: " + topic + ", with QoS: " + qos + " with retained flag set to " + retained);
+                return mqttAndroidClient.publish(topic, mqttMsg);
+            } catch (MqttPersistenceException e) {
+                Log.e(TAG, "MqttPersistenceException caught while attempting to publish a message", e.getCause());
+                throw e;
+            } catch (MqttException e) {
+                Log.e(TAG, "MqttException caught while attempting to publish a message", e.getCause());
+                throw e;
+            }
+        }
+        return null;
+    }
     /**
      * @param event     The event to create a topic string for
      * @param format    The format of the data sent to this topic

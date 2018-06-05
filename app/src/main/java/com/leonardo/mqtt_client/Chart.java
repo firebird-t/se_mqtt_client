@@ -20,7 +20,7 @@ public class Chart {
 
     public Chart(LineChart chart) {
         mChart = chart;
-        mChart.setOnChartValueSelectedListener((OnChartValueSelectedListener) this);
+        //mChart.setOnChartValueSelectedListener((OnChartValueSelectedListener) this);
 
         // no description text
         mChart.setNoDataText("You need to provide data for the chart.");
