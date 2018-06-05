@@ -23,7 +23,6 @@ public class MqttClient {
     private static final String IOT_DEVICE_USERNAME  = "use-token-auth";
 
     //private static IoTClient instance;
-    private MqttAndroidClient client;
     //private final Context context;
     //private final Context context;
 
@@ -46,30 +45,37 @@ public class MqttClient {
 
 
     public MqttClient(Context context){
+
+        //Informa os dados de identificação do cliente e url de conexão
         mqttAndroidClient = new MqttAndroidClient(context, this.connectionURI, this.clientID);
 
+        //Método de Autenticação
         username = IOT_DEVICE_USERNAME;
+
+        //A senha é o token fornecido pela plataforma
         password = this.getAuthorizationToken().toCharArray();
 
+        //Configura as opções nos métodos de conexão
         MqttConnectOptions options = new MqttConnectOptions();
         options.setCleanSession(true);
         options.setUserName(username);
         options.setPassword(password);
 
+        //Configuração de Callbacks
         mqttAndroidClient.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
-                Log.w("mqtt", s);
+                Log.w("Conexão mqtt: ", s);
             }
 
             @Override
             public void connectionLost(Throwable throwable) {
-
+                Log.w("Conexão perdida",throwable);
             }
 
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-                Log.w("Mqtt", mqttMessage.toString());
+                Log.w("Mensagem Mqtt: ", mqttMessage.toString());
             }
 
             @Override
@@ -77,6 +83,8 @@ public class MqttClient {
 
             }
         });
+
+        //Método de Conexão
         connect();
     }
 
@@ -119,9 +127,6 @@ public class MqttClient {
 
     }
 
-
-
-
     private void subscribeToTopic() {
         try {
             mqttAndroidClient.subscribe(subscriptionTopic, 0, null, new IMqttActionListener() {
@@ -142,20 +147,38 @@ public class MqttClient {
         }
     }
 
-    public void publishMessage(){
+    private boolean isMqttConnected() {
+        Log.d(TAG, ".isMqttConnected() entered");
+        boolean connected = false;
+        try {
+            if ((mqttAndroidClient != null) && (mqttAndroidClient.isConnected())) {
+                connected = true;
+            }
+        } catch (Exception e) {
+            // swallowing the exception as it means the client is not connected
+        }
+        Log.d(TAG, ".isMqttConnected() - returning " + connected);
+        return connected;
+    }
 
-//        try {
-//            MqttMessage message = new MqttMessage();
-//            message.setPayload(publishMessage.getBytes());
-//            mqttAndroidClient.publish(publishTopic, message);
-//            addToHistory("Message Published");
-//            if(!mqttAndroidClient.isConnected()){
-//                addToHistory(mqttAndroidClient.getBufferedMessageCount() + " messages in buffer.");
-//            }
-//        } catch (MqttException e) {
-//            System.err.println("Error Publishing: " + e.getMessage());
-//            e.printStackTrace();
-//        }
+    /**
+     * @param event     The event to create a topic string for
+     * @param format    The format of the data sent to this topic
+     *
+     * @return The event topic for the specified event string
+     */
+    public static String getEventTopic(String event, String format) {
+        return "iot-2/evt/" + event + "/fmt/json";
+    }
+
+    /**
+     * @param command   The command to create a topic string for
+     * @param format    The format of the data sent to this topic
+     *
+     * @return The command topic for the specified command string
+     */
+    public static String getCommandTopic(String command, String format) {
+        return "iot-2/cmd/" + command + "/fmt/json";
     }
 
     public String getAuthorizationToken() {
