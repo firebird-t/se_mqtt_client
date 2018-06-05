@@ -15,22 +15,47 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class MqttClient {
     public MqttAndroidClient mqttAndroidClient;
+    public MqttAndroidClient watsonClient;
 
-    //Servidor
-    final String serverUri = "m13.cloudmqtt.com";
+    private static final String TAG = "";
+    private static final String IOT_ORGANIZATION_TCP = ".messaging.internetofthings.ibmcloud.com:1883";
+    private static final String IOT_ORGANIZATION_SSL = ".messaging.internetofthings.ibmcloud.com:8883";
+    private static final String IOT_DEVICE_USERNAME  = "use-token-auth";
 
-    //Dados do cliente
-    final String clientId = "Android Client";
+    //private static IoTClient instance;
+    private MqttAndroidClient client;
+    //private final Context context;
+    //private final Context context;
+
+    private String organization = "tobtpr" ;
+    private String deviceType = "mobile";
+    private String deviceID = "lenovok6";
+    private String authorizationToken = "TmXaKBEsfc6Cvw!IbE";
+
 
     //Dados do sensor
     final String subscriptionTopic = "sensor/+";
 
     //Dados de usuário e senha
-    final String username = "oubvlxlo";
-    final String password = "1qrkhzaMzUoN";
+    //final String username = "oubvlxlo";
+    //final String password = "1qrkhzaMzUoN";
+    String username;
+    char[] password;
+    String clientID = "d:" + "tobtpr" + ":" + "mobile" + ":" + "lenovok6";
+    String connectionURI = "tcp://" + "tobtpr" + IOT_ORGANIZATION_TCP;
+
 
     public MqttClient(Context context){
-        mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
+        mqttAndroidClient = new MqttAndroidClient(context, this.connectionURI, this.clientID);
+
+        username = IOT_DEVICE_USERNAME;
+        password = this.getAuthorizationToken().toCharArray();
+
+        MqttConnectOptions options = new MqttConnectOptions();
+        options.setCleanSession(true);
+        options.setUserName(username);
+        options.setPassword(password);
+
         mqttAndroidClient.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
@@ -64,7 +89,7 @@ public class MqttClient {
         mqttConnectOptions.setAutomaticReconnect(true);
         mqttConnectOptions.setCleanSession(false);
         mqttConnectOptions.setUserName(username);
-        mqttConnectOptions.setPassword(password.toCharArray());
+        mqttConnectOptions.setPassword(password);
 
         try {
             mqttAndroidClient.connect(mqttConnectOptions, null, new IMqttActionListener() {
@@ -79,12 +104,12 @@ public class MqttClient {
                     disconnectedBufferOptions.setDeleteOldestMessages(false);
 
                     mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
-                    subscribeToTopic();
+                    //subscribeToTopic();
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.w("Mqtt", "Falha ao se conectar: " + serverUri + exception.toString());
+                    Log.w("Mqtt", "Falha ao se conectar: " + connectionURI + exception.toString());
                 }
             });
         } catch (MqttException e) {
@@ -93,6 +118,8 @@ public class MqttClient {
 
 
     }
+
+
 
 
     private void subscribeToTopic() {
@@ -113,5 +140,25 @@ public class MqttClient {
             System.err.println("Houve um problema ao subscrever");
             ex.printStackTrace();
         }
+    }
+
+    public void publishMessage(){
+
+//        try {
+//            MqttMessage message = new MqttMessage();
+//            message.setPayload(publishMessage.getBytes());
+//            mqttAndroidClient.publish(publishTopic, message);
+//            addToHistory("Message Published");
+//            if(!mqttAndroidClient.isConnected()){
+//                addToHistory(mqttAndroidClient.getBufferedMessageCount() + " messages in buffer.");
+//            }
+//        } catch (MqttException e) {
+//            System.err.println("Error Publishing: " + e.getMessage());
+//            e.printStackTrace();
+//        }
+    }
+
+    public String getAuthorizationToken() {
+        return authorizationToken;
     }
 }

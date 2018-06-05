@@ -25,11 +25,11 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        dataReceived = (TextView) findViewById(R.id.dataReceived);
-        chart = (LineChart) findViewById(R.id.chart);
-        mChart = new Chart(chart);
-
         startMqtt();
+
+        //dataReceived = (TextView) findViewById(R.id.dataReceived);
+        //chart = (LineChart) findViewById(R.id.chart);
+        //mChart = new Chart(chart);
     }
 
     private void startMqtt() {
