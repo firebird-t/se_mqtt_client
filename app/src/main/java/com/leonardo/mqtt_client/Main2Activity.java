@@ -12,6 +12,7 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.json.JSONObject;
 
 
 public class Main2Activity extends AppCompatActivity {
@@ -52,9 +53,15 @@ public class Main2Activity extends AppCompatActivity {
 
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-                Log.w("Debug", mqttMessage.toString());
-                dataReceived.setText(mqttMessage.toString());
-                mChart.addEntry(Float.valueOf(mqttMessage.toString()));
+                //Log.w("Debug", mqttMessage.toString());
+
+                JSONObject jObject = new JSONObject(mqttMessage.toString());
+                JSONObject jObject2 = new JSONObject(String.valueOf(jObject.get("d")));
+                System.out.println(jObject2.get("Illumination"));
+                //dataReceived.setText(mqttMessage.toString());
+                dataReceived.setText(String.valueOf(jObject2.get("Illumination")));
+                //mChart.addEntry(Float.valueOf(mqttMessage.toString()));
+                mChart.addEntry(Float.valueOf(String.valueOf(jObject2.get("Illumination"))));
             }
 
             @Override

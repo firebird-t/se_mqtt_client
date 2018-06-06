@@ -28,10 +28,10 @@ public class MqttClient {
     private Context context;
 
     private String organization = "tobtpr" ;
-    private String deviceType = "mobile";
+    private String deviceType = "nodemcu";
     private String deviceID = "lenovok6";
-    private String authorizationToken = "TmXaKBEsfc6Cvw!IbE";
-
+    //private String authorizationToken = "lenovok6";
+    private String authorizationToken = "NZCheTg7O2D_jZR@uj";
 
     //Dados do sensor
     final String subscriptionTopic = "sensor/+";
@@ -39,7 +39,9 @@ public class MqttClient {
     //Dados de usuário e senha
     String username;
     char[] password;
-    String clientID = "d:" + "tobtpr" + ":" + "mobile" + ":" + "lenovok6";
+    //String clientID = "d:" + this.organization + ":" + this.deviceType + ":" + this.deviceID;
+    String clientID = "a:tobtpr:s5ygbb9mb4";
+    String ApiKey = "a-tobtpr-s5ygbb9mb4";
     String connectionURI = "tcp://" + "tobtpr" + IOT_ORGANIZATION_TCP;
 
 
@@ -51,34 +53,13 @@ public class MqttClient {
         //Informa Contexto da aplicação, os dados de identificação do cliente e url de conexão
         mqttAndroidClient = new MqttAndroidClient(context, this.connectionURI, this.clientID);
 
-        //Método de Autenticação
-        username = IOT_DEVICE_USERNAME;
+        //para dispositivos
+        //username = IOT_DEVICE_USERNAME;
+        //para aplicativos
+        username = this.ApiKey;
 
         //A senha é o token fornecido pela plataforma
         password = this.getAuthorizationToken().toCharArray();
-
-        //Configuração de Callbacks
-        mqttAndroidClient.setCallback(new MqttCallbackExtended() {
-            @Override
-            public void connectComplete(boolean b, String s) {
-                Log.w("Conexão mqtt: ", s);
-            }
-
-            @Override
-            public void connectionLost(Throwable throwable) {
-                Log.w("Conexão perdida",throwable);
-            }
-
-            @Override
-            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-                Log.w("Mensagem Mqtt: ", mqttMessage.toString());
-            }
-
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-
-            }
-        });
 
         //Método de Conexão
         connect();
@@ -113,7 +94,7 @@ public class MqttClient {
                     disconnectedBufferOptions.setDeleteOldestMessages(false);
 
                     mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
-                    //subscribeToTopic();
+                    subscribeToTopic("iot-2/type/+/id/+/evt/+/fmt/json", 0);
                 }
 
                 @Override
@@ -128,23 +109,25 @@ public class MqttClient {
 
     }
 
-    private void subscribeToTopic() {
-        try {
-            mqttAndroidClient.subscribe(subscriptionTopic, 0, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    Log.w("Mqtt","Subscrito!");
-                }
+    private void subscribeToTopic(String topic, int qos) {
+        if(isMqttConnected()){
+            try {
+                mqttAndroidClient.subscribe(topic, qos, null, new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        Log.w("Mqtt","Subscrito!");
+                    }
 
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.w("Mqtt", "falha ao subscrever!");
-                }
-            });
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                        Log.w("Mqtt", exception);
+                    }
+                });
 
-        } catch (MqttException ex) {
-            System.err.println("Houve um problema ao subscrever");
-            ex.printStackTrace();
+            } catch (MqttException ex) {
+                System.err.println("Houve um problema ao subscrever");
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -162,13 +145,64 @@ public class MqttClient {
         return connected;
     }
 
-    public IMqttDeliveryToken publishCommand(String command, String format, String payload, int qos, boolean retained, IMqttActionListener listener) throws MqttException {
-        Log.d(TAG, ".publishCommand() entered");
-        String commandTopic = getCommandTopic(command, format);
-        return publish(commandTopic, payload, qos, retained, listener);
+    /**
+     * Subscribe to an MQTT topic
+     *
+     * @param topic         The MQTT topic string to subscribe to
+     * @param qos           The Quality of Service to use for the subscription
+     * @param userContext   The context to associate with the subscribe call
+     * @param listener      The IoTActionListener object to register with the Mqtt Token
+     *
+     * @@return IMqttToken The token returned by the Mqtt Subscribe call
+     *
+     * @throws MqttException
+     */
+    private IMqttToken subscribe(String topic, int qos, Object userContext, IMqttActionListener listener) throws MqttException {
+        Log.d(TAG, ".subscribe() entered");
+        if (isMqttConnected()) {
+            try {
+                return mqttAndroidClient.subscribe(topic, qos, userContext, listener);
+            } catch (MqttException e) {
+                Log.e(TAG, "Exception caught while attempting to subscribe to topic " + topic, e.getCause());
+                throw e;
+            }
+        }
+        return null;
     }
 
-    private IMqttDeliveryToken publish(String topic, String payload, int qos, boolean retained, IMqttActionListener listener) throws MqttException {
+    /**
+     * Unsubscribe from an MQTT topic
+     *
+     * @param topic         The MQTT topic string to unsubscribe from
+     * @param userContext   The context to associate with the unsubscribe call
+     * @param listener      The IoTActionListener object to register with the Mqtt Token
+     *
+     * @@return IMqttToken The token returned by the Mqtt Unsubscribe call
+     *
+     * @throws MqttException
+     */
+    private IMqttToken unsubscribe(String topic, Object userContext, IMqttActionListener listener) throws MqttException {
+        Log.d(TAG, ".unsubscribe() entered");
+        if (isMqttConnected()) {
+            try {
+                return mqttAndroidClient.unsubscribe(topic, userContext, listener);
+            } catch (MqttException e) {
+                Log.e(TAG, "Exception caught while attempting to subscribe to topic " + topic, e.getCause());
+                throw e;
+            }
+        }
+        return null;
+    }
+
+    //IMqttActionListener listener
+    public IMqttDeliveryToken publishCommand(String command, String format, String payload, int qos, boolean retained) throws MqttException {
+        Log.d(TAG, ".publishCommand() entered");
+        String commandTopic = getCommandTopic(command, format);
+        return publish(commandTopic, payload, qos, retained);
+    }
+
+    //IMqttActionListener listener
+    private IMqttDeliveryToken publish(String topic, String payload, int qos, boolean retained) throws MqttException {
         Log.d(TAG, ".publish() entered");
 
         // check if client is connected

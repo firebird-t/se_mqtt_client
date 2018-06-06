@@ -140,7 +140,7 @@ void publishData() {
   payload += "}}";
 
   Serial.print("Sending payload: "); Serial.println(payload);
-
+   Serial.print("Sending payload: "); Serial.println(publishTopic);
   if (client.publish(publishTopic, (char*) payload.c_str())) {
     Serial.println("Publish OK");
   } else {
