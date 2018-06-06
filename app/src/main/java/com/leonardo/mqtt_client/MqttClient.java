@@ -47,8 +47,10 @@ public class MqttClient {
 
     public MqttClient(Context context){
 
+        //Contexto da aplicação
         this.context = context;
-        //Informa os dados de identificação do cliente e url de conexão
+
+        //Informa Contexto da aplicação, os dados de identificação do cliente e url de conexão
         mqttAndroidClient = new MqttAndroidClient(context, this.connectionURI, this.clientID);
 
         //Método de Autenticação
@@ -56,12 +58,6 @@ public class MqttClient {
 
         //A senha é o token fornecido pela plataforma
         password = this.getAuthorizationToken().toCharArray();
-
-        //Configura as opções nos métodos de conexão
-        MqttConnectOptions options = new MqttConnectOptions();
-        options.setCleanSession(true);
-        options.setUserName(username);
-        options.setPassword(password);
 
         //Configuração de Callbacks
         mqttAndroidClient.setCallback(new MqttCallbackExtended() {
@@ -95,13 +91,18 @@ public class MqttClient {
     }
 
     private void connect(){
+
+        //Cria instância para configurar as propriedades da conexão
         MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
+
+        //Configura as propriedades no método de conexão
         mqttConnectOptions.setAutomaticReconnect(true);
-        mqttConnectOptions.setCleanSession(false);
+        mqttConnectOptions.setCleanSession(true);
         mqttConnectOptions.setUserName(username);
         mqttConnectOptions.setPassword(password);
 
         try {
+            //Conexão ao servidor
             mqttAndroidClient.connect(mqttConnectOptions, null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
