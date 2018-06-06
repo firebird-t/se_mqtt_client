@@ -37,8 +37,6 @@ public class MqttClient {
     final String subscriptionTopic = "sensor/+";
 
     //Dados de usuário e senha
-    //final String username = "oubvlxlo";
-    //final String password = "1qrkhzaMzUoN";
     String username;
     char[] password;
     String clientID = "d:" + "tobtpr" + ":" + "mobile" + ":" + "lenovok6";
@@ -97,7 +95,7 @@ public class MqttClient {
 
         //Configura as propriedades no método de conexão
         mqttConnectOptions.setAutomaticReconnect(true);
-        mqttConnectOptions.setCleanSession(true);
+        mqttConnectOptions.setCleanSession(false);
         mqttConnectOptions.setUserName(username);
         mqttConnectOptions.setPassword(password);
 

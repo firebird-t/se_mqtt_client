@@ -10,6 +10,7 @@ import com.github.mikephil.charting.charts.*;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 
@@ -41,23 +42,29 @@ public class Main2Activity extends AppCompatActivity {
         mqttHelper.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
-
+                Log.w("Conexão mqtt: ", s);
             }
 
             @Override
             public void connectionLost(Throwable throwable) {
-
+                Log.w("Conexão perdida",throwable);
             }
 
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 Log.w("Debug", mqttMessage.toString());
                 dataReceived.setText(mqttMessage.toString());
+                mChart.addEntry(Float.valueOf(mqttMessage.toString()));
             }
 
             @Override
             public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-
+                String message;
+                try {
+                    message = iMqttDeliveryToken.getMessage().toString();
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
