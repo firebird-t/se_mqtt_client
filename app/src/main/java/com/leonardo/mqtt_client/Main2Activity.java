@@ -59,7 +59,7 @@ public class Main2Activity extends AppCompatActivity {
                 JSONObject jObject2 = new JSONObject(String.valueOf(jObject.get("d")));
                 System.out.println(jObject2.get("Illumination"));
                 //dataReceived.setText(mqttMessage.toString());
-                dataReceived.setText(String.valueOf(jObject2.get("Illumination")));
+                dataReceived.setText("Valor da iluminação do Ambiente: "+String.valueOf(jObject2.get("Illumination")));
                 //mChart.addEntry(Float.valueOf(mqttMessage.toString()));
                 mChart.addEntry(Float.valueOf(String.valueOf(jObject2.get("Illumination"))));
             }

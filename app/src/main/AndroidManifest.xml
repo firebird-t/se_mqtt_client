@@ -24,8 +24,10 @@
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
-        <activity android:name=".Main2Activity" android:label="Visualização de Dados">
-        </activity>
+        <activity
+            android:name=".Main2Activity"
+            android:label="Visualização de Dados"></activity>
+        <activity android:name=".Main3Activity"></activity>
     </application>
 
 </manifest>
