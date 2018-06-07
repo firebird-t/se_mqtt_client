@@ -108,10 +108,10 @@ public class MqttClient {
         if(value.equals("device")){
             this.clientID = "d:" + this.organization + ":" + this.deviceType + ":" + this.deviceID;
             this.organization = "tobtpr";
-            this.deviceType = "nodemcu";
-            this.deviceID = "lenovok6";
+            this.deviceType = "mobile";
+            this.deviceID = "gps";
             this.username = IOT_DEVICE_USERNAME;
-            this.password = ("lenovok6").toCharArray();
+            this.password = ("s(Gc5_tgw@QfXFJNHd").toCharArray();
         }
         //Application
         else if(value.equals("app")){

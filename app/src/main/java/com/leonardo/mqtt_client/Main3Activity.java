@@ -13,6 +13,6 @@ public class Main3Activity extends AppCompatActivity {
         setContentView(R.layout.activity_main3);
 
 
-        mqttClient = new MqttClient(getApplicationContext(), "app");
+        mqttClient = new MqttClient(getApplicationContext(), "device");
     }
 }
