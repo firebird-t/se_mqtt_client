@@ -27,7 +27,7 @@
         <activity
             android:name=".Main2Activity"
             android:label="Visualização de Dados"></activity>
-        <activity android:name=".Main3Activity"></activity>
+        <activity android:name=".Main3Activity" android:label="Envio de dados do gps"></activity>
     </application>
 
 </manifest>

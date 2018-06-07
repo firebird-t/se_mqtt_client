@@ -147,6 +147,30 @@ public class MqttClient {
         }
     }
 
+    //Publicar a mensagem
+    public void publishToTopic(String topic, String payload, int qos, boolean retained) throws MqttException {
+        //"iot-2/evt/" + event + "/fmt/json";
+        //return "iot-2/cmd/" + command + "/fmt/json";
+        if(isMqttConnected()){
+            MqttMessage mqttMsg = new MqttMessage(payload.getBytes());
+            // set retained flag
+            mqttMsg.setRetained(retained);
+            // set quality of service
+            mqttMsg.setQos(qos);
+
+            try {
+                mqttAndroidClient.publish(topic, mqttMsg);
+            } catch (MqttPersistenceException e) {
+                Log.e(TAG, "MqttPersistenceException caught while attempting to publish a message", e.getCause());
+                throw e;
+            } catch (MqttException e) {
+                Log.e(TAG, "MqttException caught while attempting to publish a message", e.getCause());
+                throw e;
+            }
+        }
+
+    }
+
     private boolean isMqttConnected() {
         Log.d(TAG, ".isMqttConnected() entered");
         boolean connected = false;

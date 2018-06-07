@@ -34,10 +34,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Enivar dados de localicação
         bt2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent it = new Intent(MainActivity.this, Main3Activity.class);
+                startActivity(it);
             }
         });
     }
