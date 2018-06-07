@@ -36,7 +36,7 @@ public class Main2Activity extends AppCompatActivity {
 
     private void startMqtt() {
         //Cria instância da classe
-        mqttHelper = new MqttClient(getApplicationContext());
+        mqttHelper = new MqttClient(getApplicationContext(), "device");
 
 
         //Configura métodos de callback
@@ -44,6 +44,7 @@ public class Main2Activity extends AppCompatActivity {
             @Override
             public void connectComplete(boolean b, String s) {
                 Log.w("Conexão mqtt: ", s);
+                mqttHelper.subscribeToTopic("iot-2/type/+/id/+/evt/+/fmt/json", 0);
             }
 
             @Override

@@ -18,7 +18,7 @@ public class MqttClient {
     public MqttAndroidClient mqttAndroidClient;
     public MqttAndroidClient watsonClient;
 
-    private static final String TAG = "";
+    private static final String TAG = "Conexão mqtt";
     private static final String IOT_ORGANIZATION_TCP = ".messaging.internetofthings.ibmcloud.com:1883";
     private static final String IOT_ORGANIZATION_SSL = ".messaging.internetofthings.ibmcloud.com:8883";
     private static final String IOT_DEVICE_USERNAME  = "use-token-auth";
@@ -27,11 +27,10 @@ public class MqttClient {
     //private final Context context;
     private Context context;
 
-    private String organization = "tobtpr" ;
-    private String deviceType = "nodemcu";
-    private String deviceID = "lenovok6";
-    //private String authorizationToken = "lenovok6";
-    private String authorizationToken = "NZCheTg7O2D_jZR@uj";
+    private String organization;
+    private String deviceType;
+    private String deviceID;
+    private String authorizationToken = "lenovok6";
 
     //Dados do sensor
     final String subscriptionTopic = "sensor/+";
@@ -39,27 +38,22 @@ public class MqttClient {
     //Dados de usuário e senha
     String username;
     char[] password;
-    //String clientID = "d:" + this.organization + ":" + this.deviceType + ":" + this.deviceID;
-    String clientID = "a:tobtpr:s5ygbb9mb4";
+    //String clientID
+    String clientID;
     String ApiKey = "a-tobtpr-s5ygbb9mb4";
     String connectionURI = "tcp://" + "tobtpr" + IOT_ORGANIZATION_TCP;
 
 
-    public MqttClient(Context context){
+    public MqttClient(Context context, String connectionType){
 
         //Contexto da aplicação
         this.context = context;
 
+        //Define o tipo de conexão
+        connectionType(connectionType);
+
         //Informa Contexto da aplicação, os dados de identificação do cliente e url de conexão
         mqttAndroidClient = new MqttAndroidClient(context, this.connectionURI, this.clientID);
-
-        //para dispositivos
-        //username = IOT_DEVICE_USERNAME;
-        //para aplicativos
-        username = this.ApiKey;
-
-        //A senha é o token fornecido pela plataforma
-        password = this.getAuthorizationToken().toCharArray();
 
         //Método de Conexão
         connect();
@@ -94,7 +88,7 @@ public class MqttClient {
                     disconnectedBufferOptions.setDeleteOldestMessages(false);
 
                     mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
-                    subscribeToTopic("iot-2/type/+/id/+/evt/+/fmt/json", 0);
+
                 }
 
                 @Override
@@ -109,7 +103,29 @@ public class MqttClient {
 
     }
 
-    private void subscribeToTopic(String topic, int qos) {
+    private void connectionType(String value){
+        //Device
+        if(value.equals("device")){
+            this.clientID = "d:" + this.organization + ":" + this.deviceType + ":" + this.deviceID;
+            this.organization = "tobtpr";
+            this.deviceType = "nodemcu";
+            this.deviceID = "lenovok6";
+            this.username = IOT_DEVICE_USERNAME;
+            this.password = ("lenovok6").toCharArray();
+        }
+        //Application
+        else if(value.equals("app")){
+            this.clientID = "a:tobtpr:s5ygbb9mb4";
+            this.organization = "tobtpr";
+            this.deviceType = "";
+            this.deviceID = "";
+            this.username = this.ApiKey;
+            this.password = ("NZCheTg7O2D_jZR@uj").toCharArray();
+        }
+    }
+
+
+    public void subscribeToTopic(String topic, int qos) {
         if(isMqttConnected()){
             try {
                 mqttAndroidClient.subscribe(topic, qos, null, new IMqttActionListener() {
