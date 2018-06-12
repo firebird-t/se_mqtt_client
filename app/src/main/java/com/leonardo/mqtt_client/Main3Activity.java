@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -25,25 +26,20 @@ public class Main3Activity extends AppCompatActivity {
     double longitude;
     double latitude;
 
+    //topic publish iot-2/type/device_type/id/device_id/cmd/command_id/fmt/format_string
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
+        mqttClient = new MqttClient(this.getApplicationContext(), "app", "publish");
 
+        //Localização
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location location = null;
 
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             return;
         }
@@ -52,8 +48,6 @@ public class Main3Activity extends AppCompatActivity {
         longitude = location.getLongitude();
         latitude = location.getLatitude();
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
-        
-        mqttClient = new MqttClient(getApplicationContext(), "device");
 
 
         button = findViewById(R.id.button);
@@ -62,7 +56,7 @@ public class Main3Activity extends AppCompatActivity {
             public void onClick(View v) {
 
                 try {
-                    mqttClient.publishToTopic("","",0,false);
+                    mqttClient.publishToTopic("iot-2/type/mobile/id/gps/cmd/status/fmt/json","",0,false);
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
@@ -80,7 +74,7 @@ public class Main3Activity extends AppCompatActivity {
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-
+            Log.d("Changed", String.valueOf(status));
         }
 
         @Override

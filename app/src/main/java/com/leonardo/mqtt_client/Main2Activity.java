@@ -36,7 +36,7 @@ public class Main2Activity extends AppCompatActivity {
 
     private void startMqtt() {
         //Cria instância da classe
-        mqttHelper = new MqttClient(getApplicationContext(), "app");
+        mqttHelper = new MqttClient(getApplicationContext(), "app", "subscribe");
 
 
         //Configura métodos de callback

@@ -26,7 +26,7 @@ public class MqttClient {
     //private static IoTClient instance;
     //private final Context context;
     private Context context;
-
+    private String command;
     private String organization;
     private String deviceType;
     private String deviceID;
@@ -44,13 +44,16 @@ public class MqttClient {
     String connectionURI = "tcp://" + "tobtpr" + IOT_ORGANIZATION_TCP;
 
 
-    public MqttClient(Context context, String connectionType){
+    public MqttClient(Context context, String connectionType, String command){
 
         //Contexto da aplicação
         this.context = context;
 
+        //Publish - Subscribe
+        this.command = command;
+
         //Define o tipo de conexão
-        connectionType(connectionType);
+        connectionType(connectionType, command);
 
         //Informa Contexto da aplicação, os dados de identificação do cliente e url de conexão
         mqttAndroidClient = new MqttAndroidClient(context, this.connectionURI, this.clientID);
@@ -103,9 +106,9 @@ public class MqttClient {
 
     }
 
-    private void connectionType(String value){
+    private void connectionType(String type, String cmd){
         //Device
-        if(value.equals("device")){
+        if(type.equals("device")){
             this.clientID = "d:" + this.organization + ":" + this.deviceType + ":" + this.deviceID;
             this.organization = "tobtpr";
             this.deviceType = "mobile";
@@ -114,7 +117,7 @@ public class MqttClient {
             this.password = ("s(Gc5_tgw@QfXFJNHd").toCharArray();
         }
         //Application
-        else if(value.equals("app")){
+        else if(type.equals("app")){
             this.clientID = "a:tobtpr:s5ygbb9mb4";
             this.organization = "tobtpr";
             this.deviceType = "";
