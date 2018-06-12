@@ -30,7 +30,7 @@ public class MqttClient {
     private String organization;
     private String deviceType;
     private String deviceID;
-    private String authorizationToken = "lenovok6";
+    private String authorizationToken = "gps_access";
 
     //Dados do sensor
     final String subscriptionTopic = "sensor/+";
@@ -91,7 +91,7 @@ public class MqttClient {
                     disconnectedBufferOptions.setDeleteOldestMessages(false);
 
                     mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
-
+                    Log.w("Mqtt", "Conexão feita com sucesso: " + connectionURI);
                 }
 
                 @Override
@@ -109,12 +109,12 @@ public class MqttClient {
     private void connectionType(String type, String cmd){
         //Device
         if(type.equals("device")){
-            this.clientID = "d:" + this.organization + ":" + this.deviceType + ":" + this.deviceID;
             this.organization = "tobtpr";
             this.deviceType = "mobile";
             this.deviceID = "gps";
+            this.clientID = "d:" + this.organization + ":" + this.deviceType + ":" + this.deviceID;
             this.username = IOT_DEVICE_USERNAME;
-            this.password = ("s(Gc5_tgw@QfXFJNHd").toCharArray();
+            this.password = ("gps_access").toCharArray();
         }
         //Application
         else if(type.equals("app")){
@@ -163,6 +163,7 @@ public class MqttClient {
 
             try {
                 mqttAndroidClient.publish(topic, mqttMsg);
+                Log.e(TAG, "mensagem enviada com sucesso");
             } catch (MqttPersistenceException e) {
                 Log.e(TAG, "MqttPersistenceException caught while attempting to publish a message", e.getCause());
                 throw e;
