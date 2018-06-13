@@ -2,6 +2,8 @@ package com.leonardo.mqtt_client;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
@@ -91,7 +93,13 @@ public class MqttClient {
                     disconnectedBufferOptions.setDeleteOldestMessages(false);
 
                     mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
+
+                    Toast toast = Toast.makeText(context, "Conexão feita com sucesso", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_VERTICAL, 0, 120);
+                    toast.show();
+
                     Log.w("Mqtt", "Conexão feita com sucesso: " + connectionURI);
+
                 }
 
                 @Override

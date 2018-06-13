@@ -28,6 +28,8 @@ public class Main3Activity extends AppCompatActivity {
     double longitude;
     double latitude;
 
+    float distance;
+
     //topic publish iot-2/type/device_type/id/device_id/cmd/command_id/fmt/format_string
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +65,26 @@ public class Main3Activity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 sendLocation();
-
-                Log.d("Latitude", String.valueOf(latitude));
-                Log.d("Longitude", String.valueOf(latitude));
             }
         });
+
+
+        //Thread de envio de dados para a nuvem
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                try {
+//                    this.sleep(3000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//                // your code here
+//
+//            }
+//        }.start();
 
 
     }
@@ -80,9 +95,6 @@ public class Main3Activity extends AppCompatActivity {
             latitude = location.getLatitude();
 
             sendLocation();
-
-            Log.d("Latitude", String.valueOf(latitude));
-            Log.d("Longitude", String.valueOf(latitude));
         }
 
         @Override
@@ -90,9 +102,6 @@ public class Main3Activity extends AppCompatActivity {
             Log.d("Changed", String.valueOf(status));
 
             sendLocation();
-
-            Log.d("Latitude", String.valueOf(latitude));
-            Log.d("Longitude", String.valueOf(latitude));
         }
 
         @Override
@@ -106,18 +115,10 @@ public class Main3Activity extends AppCompatActivity {
         }
     };
 
-    public static void setTimeoutSync(Runnable runnable, int delay) {
-        try {
-            Thread.sleep(delay);
-            runnable.run();
-        }
-        catch (Exception e){
-            System.err.println(e);
-        }
-    }
 
-    private double meterDistanceBetweenPoints(float lat_a, float lng_a, float lat_b, float lng_b) {
-        float pk = (float) (180.f/Math.PI);
+    private void meterDistanceBetweenPoints(float latA, float lngA, float latB, float lngB) {
+
+        /*float pk = (float) (180.f/Math.PI);
 
         float a1 = lat_a / pk;
         float a2 = lng_a / pk;
@@ -129,17 +130,41 @@ public class Main3Activity extends AppCompatActivity {
         double t3 = Math.sin(a1) * Math.sin(b1);
         double tt = Math.acos(t1 + t2 + t3);
 
-        return 6366000 * tt;
+        double double_tmp = 6366000 * tt;
+        Log.d("Distância", String.valueOf(double_tmp));
+        return double_tmp;*/
+
+        Location locationA = new Location("point A");
+
+        locationA.setLatitude(latA);
+        locationA.setLongitude(lngA);
+
+        Location locationB = new Location("point B");
+
+        locationB.setLatitude(latB);
+        locationB.setLongitude(lngB);
+
+        distance = locationA.distanceTo(locationB);
+
+        Log.d("Distância", String.valueOf(distance/1000)+" Km");
     }
+
 
     private void sendLocation(){
 
+        Log.d("PUBLISH","Dados enviados");
+        Log.d("Latitude", String.valueOf(latitude));
+        Log.d("Longitude", String.valueOf(longitude));
+
+        meterDistanceBetweenPoints((float)latitude, (float)longitude, (float)-3.73539,(float)-38.59264);
         if(mqttClient != null){
             try {
                 JSONObject json = new JSONObject();
                 JSONObject json2 = new JSONObject();
-                json2.put("long",longitude * (-1));
-                json2.put("lat", latitude * (-1));
+                json2.put("lon",longitude);
+                json2.put("lat", latitude);
+                json2.put("distance",distance);
+                json2.put("name","mobile");
                 json.put("d", json2);
 
                 mqttClient.publishToTopic("iot-2/evt/gps/fmt/json", String.valueOf(json),0,false);
