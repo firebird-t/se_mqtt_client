@@ -42,8 +42,8 @@ public class MqttClient {
     char[] password;
     //String clientID
     String clientID;
-    String ApiKey = "a-tobtpr-s5ygbb9mb4";
-    String connectionURI = "tcp://" + "tobtpr" + IOT_ORGANIZATION_TCP;
+    String ApiKey = "a-7fhidq-f4voloktjb";
+    String connectionURI = "tcp://" + "7fhidq" + IOT_ORGANIZATION_TCP;
 
 
     public MqttClient(Context context, String connectionType, String command){
@@ -117,21 +117,21 @@ public class MqttClient {
     private void connectionType(String type, String cmd){
         //Device
         if(type.equals("device")){
-            this.organization = "tobtpr";
-            this.deviceType = "mobile";
-            this.deviceID = "gps";
+            this.organization = "7fhidq";
+            this.deviceType = "node_mcu";
+            this.deviceID = "node_mcu1";
             this.clientID = "d:" + this.organization + ":" + this.deviceType + ":" + this.deviceID;
             this.username = IOT_DEVICE_USERNAME;
-            this.password = ("gps_access").toCharArray();
+            this.password = ("node_mcu1").toCharArray();
         }
         //Application
         else if(type.equals("app")){
-            this.clientID = "a:tobtpr:s5ygbb9mb4";
-            this.organization = "tobtpr";
+            this.clientID = "a:7fhidq:f4voloktjb";
+            this.organization = "7fhidq";
             this.deviceType = "";
             this.deviceID = "";
             this.username = this.ApiKey;
-            this.password = ("NZCheTg7O2D_jZR@uj").toCharArray();
+            this.password = ("oERUJ5PX!hUcK-tW_1").toCharArray();
         }
     }
 

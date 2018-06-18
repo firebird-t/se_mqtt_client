@@ -23,7 +23,7 @@ import static android.location.LocationManager.GPS_PROVIDER;
 public class Main3Activity extends AppCompatActivity {
 
     MqttClient mqttClient = null;
-    Button button, btconnect;
+    Button button, btconnect, btluz;
     LocationListener locationListenerResult;
     double longitude;
     double latitude;
@@ -56,7 +56,7 @@ public class Main3Activity extends AppCompatActivity {
         btconnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mqttClient = new MqttClient(getApplicationContext(), "device", "publish");
+                mqttClient = new MqttClient(getApplicationContext(), "app", "publish");
             }
         });
 
@@ -69,23 +69,27 @@ public class Main3Activity extends AppCompatActivity {
             }
         });
 
+        btluz = findViewById(R.id.ligarluz);
+        btluz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
 
-        //Thread de envio de dados para a nuvem
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                try {
-//                    this.sleep(3000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//
-//
-//                // your code here
-//
-//            }
-//        }.start();
+                try {
+                    json2.put("command","LIGHT1ON");
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
+                try {
+                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
@@ -167,9 +171,9 @@ public class Main3Activity extends AppCompatActivity {
                 json2.put("name","mobile");
                 json.put("d", json2);
 
-                mqttClient.publishToTopic("iot-2/evt/gps/fmt/json", String.valueOf(json),0,false);
+                mqttClient.publishToTopic("iot-2/type/mobile/id/gps/evt/gps/fmt/json", String.valueOf(json),0,false);
             } catch (MqttException e) {
-                e.printStackTrace();
+               e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

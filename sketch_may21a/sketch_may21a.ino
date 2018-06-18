@@ -8,22 +8,20 @@
 #define led3 D3
 int v1;
 
-//-------- Dados do Wifi -----------
+//-------- Customise these values -----------
 const char* ssid = "Lab 1";
 const char* password = "lab2info";
 
-//Dados do node mcu
-#define ORG "tobtpr"
-#define DEVICE_TYPE "nodemcu"
-#define DEVICE_ID "nodemcu1"
-#define TOKEN "NkKzZKJGCzlMs&YvFf"
+#define ORG "7fhidq"
+#define DEVICE_TYPE "node_mcu"
+#define DEVICE_ID "node_mcu1"
+#define TOKEN "node_mcu1"
 
-//-------- Valores do IBM CLOUD --------
+//-------- Customise the above values --------
 char server[] = ORG ".messaging.internetofthings.ibmcloud.com";
 char authMethod[] = "use-token-auth";
 char token[] = TOKEN;
 char clientId[] = "d:" ORG ":" DEVICE_TYPE ":" DEVICE_ID;
-
 //String value;
 const char publishTopic[] = "iot-2/evt/status/fmt/json";
 const char responseTopic[] = "iotdm-1/response";
@@ -31,17 +29,14 @@ const char manageTopic[] = "iotdevice-1/mgmt/manage";
 const char updateTopic[] = "iotdm-1/device/update";
 const char rebootTopic[] = "iotdm-1/mgmt/initiate/device/reboot";
 const char subTopic[] = "iot-2/cmd/light/fmt/json";
-
-//Funções e Bibliotecas
 void wifiConnect();
 void mqttConnect();
 void initManagedDevice();
 void publishData();
 void handleUpdate(byte* payload) ;
 void callback(char* topic, byte* payload, unsigned int payloadLength);
-
 WiFiClient wifiClient;
-PubSubClient client(server, 1883, wifiClient);
+PubSubClient client(server, 1883, callback, wifiClient);
 int publishInterval = 5000; // 30 seconds
 long lastPublishMillis;
 int sensorpin = A0;
@@ -50,20 +45,24 @@ int sensorvalue;
 void setup() {
   Serial.begin(115200);
   Serial.println();
+  pinMode(D1, OUTPUT);
+  pinMode(D2, OUTPUT);
+  pinMode(D3, OUTPUT);
+  pinMode(A0, INPUT);
   wifiConnect();
   mqttConnect();
   initManagedDevice();
 }
 
 void loop() {
-  sensorvalue = analogRead(sensorpin);
-  if (millis() - lastPublishMillis > publishInterval) {
+sensorvalue = analogRead(sensorpin); 
+if (millis() - lastPublishMillis > publishInterval) {
     publishData();
     lastPublishMillis = millis();
   }
 
 
-  if (!client.loop()) {
+if (!client.loop()) {
     mqttConnect();
     initManagedDevice();
   }
@@ -109,13 +108,13 @@ void initManagedDevice() {
   } else {
     Serial.println("subscribe to update FAILED");
   }
-  if (client.subscribe(subTopic)) {
+if (client.subscribe(subTopic)){
     Serial.println("subscribe to subtopic OK");
   } else {
     Serial.println("subscribe to update FAILED");
   }
 
-  StaticJsonBuffer<300> jsonBuffer;
+StaticJsonBuffer<300> jsonBuffer;
   JsonObject& root = jsonBuffer.createObject();
   JsonObject& d = root.createNestedObject("d");
   JsonObject& metadata = d.createNestedObject("metadata");
@@ -134,13 +133,13 @@ void initManagedDevice() {
 }
 
 void publishData() {
-
-  String payload = "{\"d\":{\"Illumination\":";
+  
+    String payload = "{\"d\":{\"Illumination\":";
   payload += sensorvalue;
   payload += "}}";
 
   Serial.print("Sending payload: "); Serial.println(payload);
-   Serial.print("Sending payload: "); Serial.println(publishTopic);
+
   if (client.publish(publishTopic, (char*) payload.c_str())) {
     Serial.println("Publish OK");
   } else {
@@ -177,69 +176,67 @@ void handleUpdate(byte* payload) {
     Serial.println("handleUpdate: payload parse FAILED");
     return;
   }
-  String value = root["command"];
-  int v1 = root["value1"];
-  int v2 = root["value2"];
-  int v3 = root["value3"];
-  int va = map(v1, 0, 100, 1023, 0);
-  int vb = map(v2, 0, 100, 1023, 0);
-  int vc = map(v3, 0, 100, 1023, 0);
+String value=root["command"];
+int v1=root["value1"];
+int v2=root["value2"];
+int v3=root["value3"];
+int va=map(v1,0,100,1023,0);
+int vb=map(v2,0,100,1023,0);
+int vc=map(v3,0,100,1023,0);
 
-  Serial.print(v1); Serial.print(v2); Serial.println(v3);
-  Serial.print(va); Serial.print(vb); Serial.print(vc);
+Serial.print(v1);Serial.print(v2);Serial.println(v3);
+Serial.print(va);Serial.print(vb);Serial.print(vc);
 
-  Serial.print("data:");
-  Serial.println(value);
-  if (value == "LIGHT1ON")
+Serial.print("data:");
+ Serial.println(value);
+  if(value=="LIGHT1ON")
   {
-    analogWrite(D1, va);
-
+    analogWrite(D1,va);
+   
   }
 
-  if (value == "LIGHT1OFF")
+  if(value=="LIGHT1OFF")
   {
-    analogWrite(D1, 1023);
+    analogWrite(D1,0); 
   }
-  if (value == "LIGHT2ON")
+  
+  if(value=="LIGHT2ON")
   {
-    analogWrite(D2, vb);
+    analogWrite(D2,vb);  
   }
-  if (value == "LIGHT2OFF")
+    if(value=="LIGHT2OFF")
   {
-    analogWrite(D2, 1023);
+    analogWrite(D2,0);
   }
-  if (value == "LIGHT3ON")
+  if(value=="LIGHT3ON")
   {
-    analogWrite(D3, vc);
+  analogWrite(D3,vc);
   }
-  if (value == "LIGHT3OFF")
+  if(value=="LIGHT3OFF")
   {
-    analogWrite(D3, 1023);
+   analogWrite(D3,0); 
   }
-  if (value == "LIGHTON")
+  if(value=="LIGHTON")
   {
-    analogWrite(D1, 0);
-    analogWrite(D2, 0);
-    analogWrite(D3, 0);
+   analogWrite(D1,1023);
+   analogWrite(D2,1023); 
+   analogWrite(D3,1023); 
   }
-  if (value == "LIGHTOFF")
+  if(value=="LIGHTOFF")
   {
-    analogWrite(D1, 1023);
-    analogWrite(D2, 1023);
-    analogWrite(D3, 1023);
+   analogWrite(D1,0);
+   analogWrite(D2,0); 
+   analogWrite(D3,0);
   }
-  value = "";
+  value="";
   Serial.println("handleUpdate payload:"); root.prettyPrintTo(Serial); Serial.println();
   JsonObject& d = root["d"];
   JsonArray& fields = d["fields"];
- 
   for (JsonArray::iterator it = fields.begin(); it != fields.end(); ++it) {
     JsonObject& field = *it;
     const char* fieldName = field["field"];
-    
     if (strcmp (fieldName, "metadata") == 0) {
       JsonObject& fieldValue = field["value"];
-     
       if (fieldValue.containsKey("publishInterval")) {
         publishInterval = fieldValue["publishInterval"];
         Serial.print("publishInterval:"); Serial.println(publishInterval);
