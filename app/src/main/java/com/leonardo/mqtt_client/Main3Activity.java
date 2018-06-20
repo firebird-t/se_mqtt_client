@@ -37,7 +37,7 @@ public class Main3Activity extends AppCompatActivity {
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location location = null;
 
-        mqttClient= null;
+        mqttClient = null;
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -74,7 +74,9 @@ public class Main3Activity extends AppCompatActivity {
                 }
 
                 try {
-                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
@@ -92,13 +94,15 @@ public class Main3Activity extends AppCompatActivity {
                     json2.put("command","LIGHTOFF");
                     json.put("d", json2);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.d("JSON", String.valueOf(e));
                 }
 
                 try {
-                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
                 } catch (MqttException e) {
-                    e.printStackTrace();
+                    Log.d("MQTT", String.valueOf(e));
                 }
             }
         });
@@ -119,7 +123,9 @@ public class Main3Activity extends AppCompatActivity {
                 }
 
                 try {
-                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
@@ -141,7 +147,9 @@ public class Main3Activity extends AppCompatActivity {
                 }
 
                 try {
-                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
@@ -164,7 +172,9 @@ public class Main3Activity extends AppCompatActivity {
                 }
 
                 try {
-                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
@@ -186,7 +196,9 @@ public class Main3Activity extends AppCompatActivity {
                 }
 
                 try {
-                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
@@ -209,7 +221,9 @@ public class Main3Activity extends AppCompatActivity {
                 }
 
                 try {
-                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
@@ -231,7 +245,9 @@ public class Main3Activity extends AppCompatActivity {
                 }
 
                 try {
-                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
@@ -318,7 +334,9 @@ public class Main3Activity extends AppCompatActivity {
                 json2.put("name","mobile");
                 json.put("d", json2);
 
-                mqttClient.publishToTopic("iot-2/type/mobile/id/gps/evt/gps/fmt/json", String.valueOf(json),0,false);
+                if(mqttClient != null) {
+                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                }
             } catch (MqttException e) {
                e.printStackTrace();
             } catch (JSONException e) {
