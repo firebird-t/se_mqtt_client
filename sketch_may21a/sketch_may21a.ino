@@ -180,9 +180,9 @@ String value=root["command"];
 int v1=root["value1"];
 int v2=root["value2"];
 int v3=root["value3"];
-int va=map(v1,0,100,1023,0);
-int vb=map(v2,0,100,1023,0);
-int vc=map(v3,0,100,1023,0);
+int va=map(v1,0,100,0,1023);
+int vb=map(v2,0,100,0,1023);
+int vc=map(v3,0,100,0,1023);
 
 Serial.print(v1);Serial.print(v2);Serial.println(v3);
 Serial.print(va);Serial.print(vb);Serial.print(vc);

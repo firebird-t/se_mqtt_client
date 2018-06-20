@@ -1,7 +1,6 @@
 package com.leonardo.mqtt_client;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -18,12 +17,10 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static android.location.LocationManager.GPS_PROVIDER;
-
 public class Main3Activity extends AppCompatActivity {
 
     MqttClient mqttClient = null;
-    Button button, btconnect, btluz;
+    Button button, btconnect, btluzgeral, btdesligageral, btliga1, btliga2, btliga3, btdesliga1, btdesliga2, btdesliga3;
     LocationListener locationListenerResult;
     double longitude;
     double latitude;
@@ -60,17 +57,52 @@ public class Main3Activity extends AppCompatActivity {
             }
         });
 
-        //Enviar Localização
-        button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        btluzgeral = findViewById(R.id.ligageral);
+        btluzgeral.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendLocation();
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
+
+                try {
+                    json2.put("command","LIGHTON");
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-        btluz = findViewById(R.id.ligarluz);
-        btluz.setOnClickListener(new View.OnClickListener() {
+        btdesligageral = findViewById(R.id.desligargeral);
+        btdesligageral.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
+
+                try {
+                    json2.put("command","LIGHTOFF");
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btliga1 = findViewById(R.id.ligaluz1);
+        btliga1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 JSONObject json = new JSONObject();
@@ -91,6 +123,115 @@ public class Main3Activity extends AppCompatActivity {
             }
         });
 
+        btdesliga1 = findViewById(R.id.desligaluz1);
+        btdesliga1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
+
+                try {
+                    json2.put("command","LIGHT1OFF");
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btliga2 = findViewById(R.id.ligaluz2);
+        btliga2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
+
+                try {
+                    json2.put("command","LIGHT2ON");
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btdesliga2 = findViewById(R.id.desligaluz2);
+        btdesliga2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
+
+                try {
+                    json2.put("command","LIGHT2OFF");
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btliga3 = findViewById(R.id.ligaluz3);
+        btliga3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
+
+                try {
+                    json2.put("command","LIGHT3ON");
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btdesliga3 = findViewById(R.id.desligaluz3);
+        btdesliga3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
+
+                try {
+                    json2.put("command","LIGHT3OFF");
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0,false);
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private final LocationListener locationListener = new LocationListener() {
@@ -159,8 +300,9 @@ public class Main3Activity extends AppCompatActivity {
         Log.d("PUBLISH","Dados enviados");
         Log.d("Latitude", String.valueOf(latitude));
         Log.d("Longitude", String.valueOf(longitude));
-
-        meterDistanceBetweenPoints((float)latitude, (float)longitude, (float)-3.73539,(float)-38.59264);
+        //-3.7379542,-38.4972275
+        //meterDistanceBetweenPoints((float)latitude, (float)longitude, (float)-3.73539,(float)-38.59264);
+        meterDistanceBetweenPoints((float)latitude, (float)longitude, (float)-3.7379542,(float)-38.4972275);
         if(mqttClient != null){
             try {
                 JSONObject json = new JSONObject();
