@@ -37,6 +37,8 @@ public class Main3Activity extends AppCompatActivity {
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Location location = null;
 
+        mqttClient= null;
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
@@ -110,6 +112,7 @@ public class Main3Activity extends AppCompatActivity {
 
                 try {
                     json2.put("command","LIGHT1ON");
+                    json2.put("value1",100);
                     json.put("d", json2);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -154,6 +157,7 @@ public class Main3Activity extends AppCompatActivity {
 
                 try {
                     json2.put("command","LIGHT2ON");
+                    json2.put("value2",100);
                     json.put("d", json2);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -198,6 +202,7 @@ public class Main3Activity extends AppCompatActivity {
 
                 try {
                     json2.put("command","LIGHT3ON");
+                    json2.put("value3",100);
                     json.put("d", json2);
                 } catch (JSONException e) {
                     e.printStackTrace();
