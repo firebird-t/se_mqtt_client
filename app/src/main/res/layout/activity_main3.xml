@@ -10,32 +10,34 @@
     <Button
         android:id="@+id/btconnect"
         android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_marginTop="37dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="11dp"
+        android:layout_marginTop="16dp"
         android:text="Conectar ao Watson"
+        app:layout_constraintBottom_toTopOf="@+id/ligaluz1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/desligargeral"
-        android:layout_width="0dp"
+        android:layout_width="176dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="20dp"
-        android:text="Desligar lâmpadas"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ligageral"
-        app:layout_constraintTop_toBottomOf="@+id/desligaluz3" />
+        android:text="Desligar Tudo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/ligageral"
-        android:layout_width="154dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="22dp"
         android:layout_marginStart="16dp"
-        android:text="Ligar lâmpadas"
-        app:layout_constraintBaseline_toBaselineOf="@+id/desligargeral"
+        android:text="Ligar Tudo"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/desligargeral"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -43,7 +45,8 @@
         android:id="@+id/desligaluz2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginTop="8dp"
         android:text="Desligar"
         app:layout_constraintEnd_toStartOf="@+id/desligaluz3"
         app:layout_constraintStart_toEndOf="@+id/desligaluz1"
@@ -53,12 +56,10 @@
         android:id="@+id/desligaluz1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="1dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginTop="8dp"
         android:text="Desligar"
         app:layout_constraintEnd_toStartOf="@+id/desligaluz2"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ligaluz1" />
 
@@ -66,8 +67,8 @@
         android:id="@+id/desligaluz3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="8dp"
         android:text="Desligar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/desligaluz2"
@@ -78,17 +79,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
+        android:layout_marginTop="72dp"
         android:text="Ligar Luz 1"
-        app:layout_constraintBaseline_toBaselineOf="@+id/ligaluz2"
         app:layout_constraintEnd_toStartOf="@+id/ligaluz2"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/ligaluz2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="11dp"
         android:text="Ligar Luz 2"
         app:layout_constraintEnd_toStartOf="@+id/ligaluz3"
         app:layout_constraintStart_toEndOf="@+id/ligaluz1"
@@ -98,8 +100,86 @@
         android:id="@+id/ligaluz3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
         android:text="Ligar Luz 3"
-        app:layout_constraintBaseline_toBaselineOf="@+id/ligaluz2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ligaluz2" />
+        app:layout_constraintStart_toEndOf="@+id/ligaluz2"
+        app:layout_constraintTop_toBottomOf="@+id/btconnect" />
+
+    <Button
+        android:id="@+id/ligatv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="17dp"
+        android:text="Ligar TV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/desligaluz4" />
+
+    <Button
+        android:id="@+id/ligaar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="Ligar central de ar"
+        app:layout_constraintStart_toStartOf="@+id/desligaluz5"
+        app:layout_constraintTop_toBottomOf="@+id/desligaluz5" />
+
+    <Button
+        android:id="@+id/desligatv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="13dp"
+        android:text="Desligar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ligatv" />
+
+    <Button
+        android:id="@+id/desligaar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:text="Desligar"
+        app:layout_constraintStart_toStartOf="@+id/ligaar"
+        app:layout_constraintTop_toBottomOf="@+id/ligaar" />
+
+    <Button
+        android:id="@+id/ligaluz4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:text="Ligar Luz 4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/desligaluz1" />
+
+    <Button
+        android:id="@+id/desligaluz4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="14dp"
+        android:text="Desligar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ligaluz4" />
+
+    <Button
+        android:id="@+id/ligaluz5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Ligar Luz 5"
+        app:layout_constraintStart_toStartOf="@+id/desligaluz2"
+        app:layout_constraintTop_toBottomOf="@+id/desligaluz2" />
+
+    <Button
+        android:id="@+id/desligaluz5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:text="Desligar"
+        app:layout_constraintStart_toStartOf="@+id/ligaluz5"
+        app:layout_constraintTop_toBottomOf="@+id/ligaluz5" />
+
 </android.support.constraint.ConstraintLayout>

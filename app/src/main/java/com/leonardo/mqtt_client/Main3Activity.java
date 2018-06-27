@@ -26,6 +26,7 @@ public class Main3Activity extends AppCompatActivity {
     double latitude;
 
     float distance;
+    Button btliga4, btdesliga4, btliga5, btdesliga5, btligaar, btdesligaar, btligatv, btdesligatv;
 
     //topic publish iot-2/type/device_type/id/device_id/cmd/command_id/fmt/format_string
     @Override
@@ -253,6 +254,202 @@ public class Main3Activity extends AppCompatActivity {
                 }
             }
         });
+
+        btliga4 = findViewById(R.id.ligaluz4);
+        btliga4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
+
+                try {
+                    json2.put("command","LIGHT4ON");
+                    json2.put("value1",100);
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btdesliga4 = findViewById(R.id.desligaluz4);
+        btdesliga4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
+
+                try {
+                    json2.put("command","LIGHT4OFF");
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btliga5 = findViewById(R.id.ligaluz5);
+        btliga5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
+
+                try {
+                    json2.put("command","LIGHT5ON");
+                    json2.put("value1",100);
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btdesliga5 = findViewById(R.id.desligaluz5);
+        btdesliga5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
+
+                try {
+                    json2.put("command","LIGHT5OFF");
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btligaar = findViewById(R.id.ligaar);
+        btligaar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
+
+                try {
+                    json2.put("command","LIGHT6ON");
+                    json2.put("value1",100);
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btdesligaar = findViewById(R.id.desligaar);
+        btdesligaar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
+
+                try {
+                    json2.put("command","LIGHT6OFF");
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btligatv = findViewById(R.id.ligatv);
+        btligatv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
+
+                try {
+                    json2.put("command","LIGHT7ON");
+                    json2.put("value1",100);
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        btdesligatv = findViewById(R.id.desligatv);
+        btdesligatv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                JSONObject json2 = new JSONObject();
+
+                try {
+                    json2.put("command","LIGHT7OFF");
+                    json.put("d", json2);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    if(mqttClient != null) {
+                        mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    }
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private final LocationListener locationListener = new LocationListener() {
@@ -335,7 +532,7 @@ public class Main3Activity extends AppCompatActivity {
                 json.put("d", json2);
 
                 if(mqttClient != null) {
-                    mqttClient.publishToTopic("iot-2/type/node_mcu/id/node_mcu1/cmd/light/fmt/json", String.valueOf(json2), 0, false);
+                    mqttClient.publishToTopic("iot-2/type/mobile/id/gps/cmd/gps/fmt/json", String.valueOf(json2), 0, false);
                 }
             } catch (MqttException e) {
                e.printStackTrace();

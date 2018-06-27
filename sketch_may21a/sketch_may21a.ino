@@ -6,11 +6,16 @@
 #define led D1
 #define led2 D2
 #define led3 D3
+#define led4 D4
+#define led5 D6
+#define led6 D7
+#define led7 D8
+
 int v1;
 
 //-------- Customise these values -----------
-const char* ssid = "Lab 1";
-const char* password = "lab2info";
+const char* ssid = "LenovoK6";
+const char* password = "12345678";
 
 #define ORG "7fhidq"
 #define DEVICE_TYPE "node_mcu"
@@ -48,6 +53,10 @@ void setup() {
   pinMode(D1, OUTPUT);
   pinMode(D2, OUTPUT);
   pinMode(D3, OUTPUT);
+  pinMode(D4, OUTPUT);
+  pinMode(D6, OUTPUT);
+  pinMode(D7, OUTPUT);
+  pinMode(D8, OUTPUT);
   pinMode(A0, INPUT);
   wifiConnect();
   mqttConnect();
@@ -189,45 +198,80 @@ Serial.print(va);Serial.print(vb);Serial.print(vc);
 
 Serial.print("data:");
  Serial.println(value);
-  if(value=="LIGHT1ON")
-  {
+  if(value=="LIGHT1ON"){
     analogWrite(D1,va);
-   
   }
-
-  if(value=="LIGHT1OFF")
-  {
+  
+  if(value=="LIGHT1OFF"){
     analogWrite(D1,0); 
   }
   
-  if(value=="LIGHT2ON")
-  {
+  if(value=="LIGHT2ON"){
     analogWrite(D2,vb);  
   }
-    if(value=="LIGHT2OFF")
-  {
+  
+  if(value=="LIGHT2OFF"){
     analogWrite(D2,0);
   }
-  if(value=="LIGHT3ON")
-  {
+  if(value=="LIGHT3ON"){
   analogWrite(D3,vc);
   }
-  if(value=="LIGHT3OFF")
-  {
+  
+  if(value=="LIGHT3OFF"){
    analogWrite(D3,0); 
   }
-  if(value=="LIGHTON")
-  {
+  
+  if(value=="LIGHT4ON"){
+  analogWrite(D4,1023);
+  }
+  
+  if(value=="LIGHT4OFF"){
+   analogWrite(D4,0); 
+  }
+  
+  if(value=="LIGHT5ON"){
+  analogWrite(D6,1023);
+  }
+  
+  if(value=="LIGHT5OFF"){
+   analogWrite(D6,0); 
+  }
+  
+  if(value=="LIGHT6ON"){
+  analogWrite(D7,1023);
+  }
+  
+  if(value=="LIGHT6OFF"){
+   analogWrite(D7,0); 
+  }
+  
+  if(value=="LIGHT7ON"){
+  analogWrite(D8,1023);
+  }
+  
+  if(value=="LIGHT7OFF"){
+   analogWrite(D8,0); 
+  }
+  if(value=="LIGHTON"){
    analogWrite(D1,1023);
    analogWrite(D2,1023); 
-   analogWrite(D3,1023); 
+   analogWrite(D3,1023);
+   analogWrite(D4,1023); 
+   analogWrite(D6,1023); 
+   analogWrite(D7,1023); 
+   analogWrite(D8,1023);  
   }
-  if(value=="LIGHTOFF")
-  {
+  
+  if(value=="LIGHTOFF"){
    analogWrite(D1,0);
    analogWrite(D2,0); 
    analogWrite(D3,0);
+   analogWrite(D4,0);
+   analogWrite(D6,0); 
+   analogWrite(D7,0); 
+   analogWrite(D8,0); 
   }
+  
   value="";
   Serial.println("handleUpdate payload:"); root.prettyPrintTo(Serial); Serial.println();
   JsonObject& d = root["d"];

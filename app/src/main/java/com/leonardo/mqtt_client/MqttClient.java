@@ -192,6 +192,7 @@ public class MqttClient {
             }
         } catch (Exception e) {
             // swallowing the exception as it means the client is not connected
+            connect();
         }
         Log.d(TAG, ".isMqttConnected() - returning " + connected);
         return connected;
