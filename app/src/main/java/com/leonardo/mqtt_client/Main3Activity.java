@@ -532,7 +532,7 @@ public class Main3Activity extends AppCompatActivity {
                 json.put("d", json2);
 
                 if(mqttClient != null) {
-                    mqttClient.publishToTopic("iot-2/type/mobile/id/gps/cmd/gps/fmt/json", String.valueOf(json2), 0, false);
+                    mqttClient.publishToTopic("iot-2/evt/gps/fmt/json", String.valueOf(json2), 0, false);
                 }
             } catch (MqttException e) {
                e.printStackTrace();
